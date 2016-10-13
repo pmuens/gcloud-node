@@ -20,6 +20,9 @@
 
 'use strict';
 
+var common = require('@google-cloud/common');
+var v1beta2 = require('./v1beta2');
+
 /**
  * <p class="notice">
  *   **This is a Alpha release of Google Cloud Functions.** This API is
@@ -40,7 +43,15 @@
  * @param {object} options - [Configuration object](#/docs).
  */
 function Functions(options) {
-  throw new Error('Not yet implemented!');
+  if (!(this instanceof Functions)) {
+    options = common.util.normalizeArguments(this, options);
+    return new Functions(options);
+  }
+
+  this.api = {
+    Functions: v1beta2(options).cloudFunctionsServiceApi(options)
+  };
 }
 
 module.exports = Functions;
+module.exports.v1beta2 = v1beta2;
